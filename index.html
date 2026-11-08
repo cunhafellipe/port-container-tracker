@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Quay / Container Tracker · Philippe Godfroy</title>
+    <meta
+      name="description"
+      content="A terminal operations simulation with ISO 6346 checks, customs-gated release, dwell exceptions and an auditable arrival-to-gate journey."
+    />
+    <meta name="theme-color" content="#096c88" />
+    <link
+      rel="canonical"
+      href="https://phlppgdfry.github.io/port-container-tracker/"
+    />
+    <meta
+      property="og:title"
+      content="Quay / Container Tracker · Engineering portfolio"
+    />
+    <meta
+      property="og:description"
+      content="A terminal operations simulation with ISO 6346 checks, customs-gated release, dwell exceptions and an auditable arrival-to-gate journey."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://phlppgdfry.github.io/port-container-tracker/"
+    />
+    <meta
+      property="og:image"
+      content="https://phlppgdfry.github.io/port-container-tracker/docs/preview.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="showcase.css" />
+  </head>
+  <body>
+    <a class="skip" href="#project">Skip to project</a>
+    <header>
+      <a
+        href="https://phlppgdfry.github.io/port-container-tracker/"
+        class="brand"
+        ><img src="logo.svg" width="34" height="34" alt="" /><span
+          >Quay / Container Tracker</span
+        ></a
+      >
+      <nav aria-label="Project navigation">
+        <a href="#walkthrough">Workflow</a><a href="#engineering">Engineering</a
+        ><a href="https://github.com/phlppgdfry/port-container-tracker"
+          >Source code</a
+        >
+      </nav>
+    </header>
+    <main id="project">
+      <section class="hero">
+        <div>
+          <h1>Every container. A clear next move.</h1>
+          <p class="lead">
+            A terminal operations simulation with ISO 6346 checks, customs-gated
+            release, dwell exceptions and an auditable arrival-to-gate journey.
+          </p>
+          <div class="actions">
+            <a class="button" href="#run">Run the demo</a
+            ><a
+              class="button outline"
+              href="https://github.com/phlppgdfry/port-container-tracker"
+              >Explore the repository</a
+            >
+          </div>
+        </div>
+        <div class="scope">
+          <strong>Local application. Public case study.</strong>This page
+          presents the working product and its engineering. Run the interactive
+          application locally. All displayed records and metrics are synthetic.
+        </div>
+      </section>
+      <figure class="preview">
+        <a href="docs/preview.png" aria-label="View full desktop screenshot"
+          ><img
+            src="docs/preview.png"
+            width="1440"
+            height="1100"
+            alt="Quay / Container Tracker desktop workspace with metrics, comparison panel and actionable record inspector"
+            fetchpriority="high"
+        /></a>
+        <figcaption>
+          Actual application screenshot · Simulation clock · 16 June 2026, 08:00
+          UTC · <a href="docs/mobile.png">View the mobile layout</a>
+        </figcaption>
+      </figure>
+      <section class="metrics" aria-label="Reproducible synthetic baseline">
+        <div class="metric">
+          <span>On terminal</span><strong>7</strong
+          ><small>Excludes gate-out containers</small>
+        </div>
+        <div class="metric">
+          <span>TEU on terminal</span><strong>12</strong
+          ><small>20 ft = 1; 40 ft = 2</small>
+        </div>
+        <div class="metric">
+          <span>Dwell exceptions</span><strong>3</strong
+          ><small>Strictly more than 5 days</small>
+        </div>
+        <div class="metric">
+          <span>Customs holds</span><strong>2</strong
+          ><small>Release is blocked while held</small>
+        </div>
+      </section>
+      <section class="content" id="walkthrough">
+        <div>
+          <h2>Follow the complete workflow.</h2>
+          <p>
+            Every action reaches a stored result. Validation errors explain the
+            rule that needs attention.
+          </p>
+          <ol>
+            <li>
+              Select MSCU1000017 and try to release it. The active customs hold
+              blocks the transition.
+            </li>
+            <li>
+              Enter a fictional customs clearance reference, clear the hold,
+              release the container, then record gate out.
+            </li>
+            <li>
+              Reload and select the same identifier. Its completed journey and
+              frozen dwell remain available; inspect the activity log.
+            </li>
+          </ol>
+        </div>
+        <div id="run">
+          <h2>From clone to working demo.</h2>
+          <p>
+            Python 3.11+ is enough to run the application. No API key, account
+            or paid service is required.
+          </p>
+          <pre><code>git clone https://github.com/phlppgdfry/port-container-tracker.git
+cd port-container-tracker
+python3 -m demo.server</code></pre>
+          <p>
+            Then open <code>http://127.0.0.1:8112</code>. Your changes stay in a
+            local SQLite database. See the README for fresh workspaces, exports
+            and test instructions.
+          </p>
+          <div class="resources">
+            <a
+              href="https://github.com/phlppgdfry/port-container-tracker#readme"
+              >Setup guide</a
+            ><a
+              href="https://github.com/phlppgdfry/port-container-tracker/blob/main/docs/case-study.md"
+              >Full case study</a
+            >
+          </div>
+        </div>
+      </section>
+      <section class="content" id="engineering">
+        <div>
+          <h2>Clear rules. Verifiable behaviour.</h2>
+          <h3>Domain logic owns the outcome.</h3>
+          <p>
+            Server-side validation, explicit use cases and derived metrics keep
+            browser inputs from becoming authoritative business state.
+          </p>
+          <h3>Changes commit together.</h3>
+          <p>
+            A record update and its audit entry share one transaction. Version
+            checks reject stale edits, and concurrent requests are tested
+            against real SQLite connections.
+          </p>
+          <div class="resources">
+            <a
+              href="https://github.com/phlppgdfry/port-container-tracker/blob/main/docs/architecture.md"
+              >Architecture</a
+            ><a
+              href="https://github.com/phlppgdfry/port-container-tracker/blob/main/docs/api.md"
+              >API contract</a
+            ><a
+              href="https://github.com/phlppgdfry/port-container-tracker/tree/main/reports/baseline"
+              >Reproduce the evidence</a
+            >
+          </div>
+        </div>
+        <div class="evidence">
+          <h2>Evidence you can inspect.</h2>
+          <p>
+            Automated tests cover business boundaries, persistence, HTTP
+            responses, failed writes and simultaneous updates. Seven Chromium
+            checks cover the core task, branded assets, filtering and three
+            screen widths.
+          </p>
+          <p>
+            The repository records implementation limits and separates the
+            original concept from delivered functionality. Synthetic results are
+            never presented as customer outcomes.
+          </p>
+          <div class="resources">
+            <a
+              href="https://github.com/phlppgdfry/port-container-tracker/actions/workflows/demo.yml"
+              >View CI results</a
+            ><a
+              href="https://github.com/phlppgdfry/port-container-tracker/blob/main/docs/validation.md"
+              >Validation notes</a
+            ><a
+              href="https://github.com/phlppgdfry/port-container-tracker/blob/main/docs/runbook.md"
+              >Runbook</a
+            >
+          </div>
+        </div>
+      </section>
+      <footer>
+        <span>Quay / Container Tracker · Portfolio demonstration</span
+        ><span
+          >Designed and built by
+          <a href="https://github.com/phlppgdfry">Philippe Godfroy</a></span
+        >
+      </footer>
+    </main>
+  </body>
+</html>

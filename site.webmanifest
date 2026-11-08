@@ -1,0 +1,16 @@
+{
+  "name": "Quay / Container Tracker",
+  "short_name": "Quay",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#096c88",
+  "background_color": "#f1f5f8",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

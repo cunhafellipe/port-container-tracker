@@ -28,7 +28,7 @@
     "title": "Release with confidence.",
     "headline": "2 containers need customs clearance.",
     "description": "Follow a validated state machine from arrival to gate out. Customs holds block release; every committed action leaves an audit entry. No live vessel feed is connected.",
-    "bars_title": "Dwell by vessel · days (active containers)",
+    "bars_title": "Mean dwell by vessel · days (10-day scale)",
     "bars": [
       {
         "label": "Atlantic Bridge",
@@ -37,12 +37,12 @@
       },
       {
         "label": "Baltic Horizon",
-        "value": 40.83333333333333,
+        "value": 40.8333,
         "display": "4.1 d"
       },
       {
         "label": "North Sea Express",
-        "value": 43.611111111111114,
+        "value": 43.6111,
         "display": "4.4 d"
       }
     ]

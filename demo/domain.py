@@ -183,24 +183,25 @@ def metrics(records):
 
 def analysis(records):
     active = [r for r in records if r["state"] != "gate_out"]
+    bars = []
+    for vessel in sorted({r["vessel"] for r in active}):
+        members = [r for r in active if r["vessel"] == vessel]
+        mean_days = sum(dwell(r) for r in members) / len(members)
+        # Python versions can differ in float summation precision. Publish a
+        # deliberate precision contract instead of raw intermediate floats.
+        bars.append(
+            {
+                "label": vessel,
+                "value": round(min(100, mean_days * 10), 4),
+                "display": f"{mean_days:.1f} d",
+            }
+        )
     return {
         "title": "Release with confidence.",
         "headline": f"{sum(r['hold'] for r in active)} containers need customs clearance.",
         "description": "Follow a validated state machine from arrival to gate out. Customs holds block release; every committed action leaves an audit entry. No live vessel feed is connected.",
-        "bars_title": "Dwell by vessel · days (active containers)",
-        "bars": [
-            {
-                "label": v,
-                "value": min(
-                    100,
-                    sum(dwell(r) for r in active if r["vessel"] == v)
-                    / sum(r["vessel"] == v for r in active)
-                    * 10,
-                ),
-                "display": f"{sum(dwell(r) for r in active if r['vessel'] == v) / sum(r['vessel'] == v for r in active):.1f} d",
-            }
-            for v in sorted({r["vessel"] for r in active})
-        ],
+        "bars_title": "Mean dwell by vessel · days (10-day scale)",
+        "bars": bars,
     }
 
 

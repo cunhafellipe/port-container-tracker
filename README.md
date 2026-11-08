@@ -2,6 +2,8 @@
 
 A terminal operations simulation with ISO 6346 checks, customs-gated release, dwell exceptions and an auditable arrival-to-gate journey.
 
+**[View the public project page](https://phlppgdfry.github.io/port-container-tracker/)** · The full interactive application runs locally.
+
 [![Portfolio verification](https://github.com/phlppgdfry/port-container-tracker/actions/workflows/demo.yml/badge.svg)](https://github.com/phlppgdfry/port-container-tracker/actions/workflows/demo.yml)
 
 ![Desktop workspace with synthetic data](docs/preview.png)
@@ -60,7 +62,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The six Chromium tests start an isolated Python server and temporary database, then clean it up. They cover branding/assets, filtering, 390/768/1440 px widths and the complete domain workflow. GitHub Actions also runs Python tests on 3.11 and 3.14. See [validation evidence](docs/validation.md).
+The seven Chromium tests start an isolated Python server and temporary database, then clean it up. They cover branding/assets, filtering, 390/768/1440 px widths the complete domain workflow, and the public project page. GitHub Actions also runs Python tests on 3.11 and 3.14. See [validation evidence](docs/validation.md).
 
 Baseline evidence is committed in [reports/baseline/snapshot.json](reports/baseline/snapshot.json) and [records.csv](reports/baseline/records.csv). These are generated from the fixtures, not a screenshot of arbitrary runtime state.
 
