@@ -1,0 +1,9 @@
+id,name,state,hold,arrived,block,vessel,teu,departed,version,status,value,context,exception
+MSCU1000017,MSCU1000017,yard,True,2026-06-08T08:00:00+00:00,A-12,Baltic Horizon,2,,1,Yard,8.0 days,A-12,True
+MSCU1000070,MSCU1000070,yard,False,2026-06-09T08:00:00+00:00,C-06,North Sea Express,1,,1,Yard,7.0 days,C-06,True
+MSCU1000001,MSCU1000001,yard,False,2026-06-10T08:00:00+00:00,B-04,North Sea Express,2,,1,Yard,6.0 days,B-04,True
+MSCU1000038,MSCU1000038,released,False,2026-06-12T08:00:00+00:00,C-02,Atlantic Bridge,2,,1,Released,4.0 days,C-02,False
+MSCU1000043,MSCU1000043,gate_out,False,2026-06-13T08:00:00+00:00,Outside,Baltic Horizon,1,2026-06-15T08:00:00+00:00,1,Gate Out,2.0 days,Outside,False
+MSCU1000059,MSCU1000059,yard,False,2026-06-15T08:00:00+00:00,B-08,Atlantic Bridge,2,,1,Yard,1.0 days,B-08,False
+MSCU1000064,MSCU1000064,arrived,True,2026-06-16T04:00:00+00:00,Quay,Baltic Horizon,2,,1,Arrived,0.2 days,Quay,False
+MSCU1000022,MSCU1000022,arrived,False,2026-06-16T06:00:00+00:00,Quay,North Sea Express,1,,1,Arrived,0.1 days,Quay,False

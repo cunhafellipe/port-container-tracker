@@ -1,0 +1,180 @@
+{
+  "project": "Quay / Container Tracker",
+  "mode": "synthetic baseline",
+  "clock": "Simulation clock · 16 June 2026, 08:00 UTC",
+  "metrics": [
+    {
+      "label": "On terminal",
+      "value": 7,
+      "note": "Excludes gate-out containers"
+    },
+    {
+      "label": "TEU on terminal",
+      "value": 12,
+      "note": "20 ft = 1; 40 ft = 2"
+    },
+    {
+      "label": "Dwell exceptions",
+      "value": 3,
+      "note": "Strictly more than 5 days"
+    },
+    {
+      "label": "Customs holds",
+      "value": 2,
+      "note": "Release is blocked while held"
+    }
+  ],
+  "analysis": {
+    "title": "Release with confidence.",
+    "headline": "2 containers need customs clearance.",
+    "description": "Follow a validated state machine from arrival to gate out. Customs holds block release; every committed action leaves an audit entry. No live vessel feed is connected.",
+    "bars_title": "Dwell by vessel · days (active containers)",
+    "bars": [
+      {
+        "label": "Atlantic Bridge",
+        "value": 25.0,
+        "display": "2.5 d"
+      },
+      {
+        "label": "Baltic Horizon",
+        "value": 40.83333333333333,
+        "display": "4.1 d"
+      },
+      {
+        "label": "North Sea Express",
+        "value": 43.611111111111114,
+        "display": "4.4 d"
+      }
+    ]
+  },
+  "records": [
+    {
+      "id": "MSCU1000017",
+      "name": "MSCU1000017",
+      "state": "yard",
+      "hold": true,
+      "arrived": "2026-06-08T08:00:00+00:00",
+      "block": "A-12",
+      "vessel": "Baltic Horizon",
+      "teu": 2,
+      "departed": null,
+      "version": 1,
+      "status": "Yard",
+      "value": "8.0 days",
+      "context": "A-12",
+      "exception": true
+    },
+    {
+      "id": "MSCU1000070",
+      "name": "MSCU1000070",
+      "state": "yard",
+      "hold": false,
+      "arrived": "2026-06-09T08:00:00+00:00",
+      "block": "C-06",
+      "vessel": "North Sea Express",
+      "teu": 1,
+      "departed": null,
+      "version": 1,
+      "status": "Yard",
+      "value": "7.0 days",
+      "context": "C-06",
+      "exception": true
+    },
+    {
+      "id": "MSCU1000001",
+      "name": "MSCU1000001",
+      "state": "yard",
+      "hold": false,
+      "arrived": "2026-06-10T08:00:00+00:00",
+      "block": "B-04",
+      "vessel": "North Sea Express",
+      "teu": 2,
+      "departed": null,
+      "version": 1,
+      "status": "Yard",
+      "value": "6.0 days",
+      "context": "B-04",
+      "exception": true
+    },
+    {
+      "id": "MSCU1000038",
+      "name": "MSCU1000038",
+      "state": "released",
+      "hold": false,
+      "arrived": "2026-06-12T08:00:00+00:00",
+      "block": "C-02",
+      "vessel": "Atlantic Bridge",
+      "teu": 2,
+      "departed": null,
+      "version": 1,
+      "status": "Released",
+      "value": "4.0 days",
+      "context": "C-02",
+      "exception": false
+    },
+    {
+      "id": "MSCU1000043",
+      "name": "MSCU1000043",
+      "state": "gate_out",
+      "hold": false,
+      "arrived": "2026-06-13T08:00:00+00:00",
+      "block": "Outside",
+      "vessel": "Baltic Horizon",
+      "teu": 1,
+      "departed": "2026-06-15T08:00:00+00:00",
+      "version": 1,
+      "status": "Gate Out",
+      "value": "2.0 days",
+      "context": "Outside",
+      "exception": false
+    },
+    {
+      "id": "MSCU1000059",
+      "name": "MSCU1000059",
+      "state": "yard",
+      "hold": false,
+      "arrived": "2026-06-15T08:00:00+00:00",
+      "block": "B-08",
+      "vessel": "Atlantic Bridge",
+      "teu": 2,
+      "departed": null,
+      "version": 1,
+      "status": "Yard",
+      "value": "1.0 days",
+      "context": "B-08",
+      "exception": false
+    },
+    {
+      "id": "MSCU1000064",
+      "name": "MSCU1000064",
+      "state": "arrived",
+      "hold": true,
+      "arrived": "2026-06-16T04:00:00+00:00",
+      "block": "Quay",
+      "vessel": "Baltic Horizon",
+      "teu": 2,
+      "departed": null,
+      "version": 1,
+      "status": "Arrived",
+      "value": "0.2 days",
+      "context": "Quay",
+      "exception": false
+    },
+    {
+      "id": "MSCU1000022",
+      "name": "MSCU1000022",
+      "state": "arrived",
+      "hold": false,
+      "arrived": "2026-06-16T06:00:00+00:00",
+      "block": "Quay",
+      "vessel": "North Sea Express",
+      "teu": 1,
+      "departed": null,
+      "version": 1,
+      "status": "Arrived",
+      "value": "0.1 days",
+      "context": "Quay",
+      "exception": false
+    }
+  ]
+}

@@ -1,82 +1,97 @@
-# 🚢 Port Container Tracker
+# Quay / Container Tracker
 
-A full-stack terminal operations dashboard for monitoring container movements, vessel calls, and yard performance at a container terminal.
+A terminal operations simulation with ISO 6346 checks, customs-gated release, dwell exceptions and an auditable arrival-to-gate journey.
 
-Built around the operational reality of a modern container port: real-time KPI tracking, automated dwell time alerts, gate transaction processing, and BI-ready reporting — all connected to a star schema data warehouse.
+[![Portfolio verification](https://github.com/phlppgdfry/port-container-tracker/actions/workflows/demo.yml/badge.svg)](https://github.com/phlppgdfry/port-container-tracker/actions/workflows/demo.yml)
 
----
+![Desktop workspace with synthetic data](docs/preview.png)
 
-## What it does
+## Run it in one command
 
-### Live KPI Dashboard
-Browser-based dashboard showing TEU throughput, vessel turnaround time, yard block occupancy, and gate transaction volume. Updates live and flags anomalies automatically.
+Requires Python 3.11+ with SQLite support. No pip install, account, API key or Node runtime is needed to run the application.
 
-### Container Dwell Time Analysis
-Python script that scans the yard for containers exceeding their target dwell time, ranks them by severity, and generates a daily CSV + chart report for the operations team.
-
-### Gate Transaction Processor
-Groovy transformer that validates and normalises incoming truck gate messages (ISO 6346 container IDs, EDI format) before they enter the terminal operating system.
-
-### Data Warehouse & BI Queries
-Oracle SQL star schema designed for operational reporting. Includes KPI queries for throughput, turnaround, and occupancy — ready to connect to Power BI or Tableau.
-
-### Process Analysis
-End-to-end AS-IS → TO-BE analysis of the container release workflow, with user stories, data model changes, and a phased implementation plan.
-
----
-
-## Tech stack
-
-| Layer | Technologies |
-|---|---|
-| Frontend | HTML5, CSS3, JavaScript, Chart.js |
-| Backend | Java 17, Spring Boot |
-| Data transformation | Groovy |
-| Data analysis & reporting | Python 3.11, pandas, matplotlib |
-| Database | Oracle SQL (star schema) |
-| CI | GitHub Actions |
-
----
-
-## Project structure
-
-```
-port-container-tracker/
-├── frontend/                   # KPI dashboard (HTML + JS + CSS)
-├── backend/
-│   ├── ContainerService.java   # Core business logic
-│   └── GateTransactionTransformer.groovy
-├── data-analysis/
-│   └── dwell_time_analysis.py  # Automated dwell time reporting
-├── sql/
-│   └── schema_and_kpis.sql     # Star schema + analytical queries
-└── docs/
-    └── process-analysis.md     # AS-IS / TO-BE process analysis
-```
-
----
-
-## Getting started
-
-**Frontend** — open directly in browser:
 ```bash
-open frontend/index.html
+git clone https://github.com/phlppgdfry/port-container-tracker.git
+cd port-container-tracker
+python3 -m demo.server
 ```
 
-**Python analysis:**
+Open **http://127.0.0.1:8112**. The first start seeds `var/demo.sqlite3`; later starts preserve changes. The server binds to loopback only.
+
+Use a new database path for a fresh workspace, without overwriting existing work:
+
 ```bash
-pip install pandas matplotlib
-python data-analysis/dwell_time_analysis.py
+python3 -m demo.server --port 8212 --db var/fresh-demo.sqlite3
 ```
 
-**Backend:**
+## Try the complete workflow
+
+1. Select MSCU1000017 and try to release it. The active customs hold blocks the transition.
+2. Enter a fictional customs clearance reference, clear the hold, release the container, then record gate out.
+3. Reload and select the same identifier. Its completed journey and frozen dwell remain available; inspect the activity log.
+
+Search and status filtering, record inspection, CSV export, input errors, an activity log, responsive layouts, individual SVG branding, favicons and Apple touch icons are included.
+
+## Why this project exists
+
+Terminal teams need to distinguish a long-dwelling container from a container that is actually eligible for release.
+
+The implementation completes one demonstrable product slice, with explicit business rules and verifiable state changes. This is a **local portfolio demonstration with synthetic data**, not an operating service or evidence of client outcomes.
+
+## Business rules
+
+- State machine: arrived → yard → released → gate_out. No skipping, backward transition or transition after gate out.
+- A customs hold blocks yard → released. Clearing it requires a non-empty reference, recorded on the container.
+- Dwell is measured in elapsed 24-hour days; an active exception is strictly >5 days. Departed containers use the departure timestamp, not the current simulation clock.
+- ISO 6346 category and check digit are validated before mutation. Fixtures are checksummed identifiers for simulation, not evidence of real container ownership.
+
+## Verify and reproduce
+
 ```bash
-# Java 17 + Maven required
-mvn spring-boot:run
+make check                 # domain, HTTP, transaction and concurrency tests + syntax checks
+make report                # deterministic baseline JSON and CSV; does not modify the database
 ```
 
----
+Node 24+ is used only for JavaScript syntax checks and browser verification. The browser suite has a pinned development dependency:
 
-## Contact
+```bash
+npm ci
+npx playwright install chromium
+npm run test:e2e
+```
 
-Philippe Godfroy — [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
+The six Chromium tests start an isolated Python server and temporary database, then clean it up. They cover branding/assets, filtering, 390/768/1440 px widths and the complete domain workflow. GitHub Actions also runs Python tests on 3.11 and 3.14. See [validation evidence](docs/validation.md).
+
+Baseline evidence is committed in [reports/baseline/snapshot.json](reports/baseline/snapshot.json) and [records.csv](reports/baseline/records.csv). These are generated from the fixtures, not a screenshot of arbitrary runtime state.
+
+## Engineering decisions
+
+**Model transitions explicitly.** The server derives the next state. The browser cannot submit an arbitrary destination state or bypass a customs hold.
+
+**Freeze the operational clock.** Dwell and fixture metrics are reproducible. This simulation represents 16 June 2026 at 08:00 UTC.
+
+**Archive the disconnected prototype.** The original Java/Groovy/Oracle samples and duplicate frontends are retained under docs/archive. The runnable product has a single documented entry point.
+
+The browser uses semantic HTML, native JavaScript modules and CSS. The Python application separates input contracts, domain rules, transactional persistence and HTTP transport. Records use optimistic version checks; each mutation and its audit entry commit together. Rejected actions leave both unchanged.
+
+## Scope and evidence
+
+No terminal operating system, EDI endpoint, AIS/vessel feed, real customs clearance or Oracle warehouse is connected. Clearing a hold is a simulation action in one trusted local workspace.
+
+The June concept is retained in [original-concept.md](docs/original-concept.md), explicitly labelled as unverified history. Current functionality is defined by the source, tests and this README. The demo has no authentication or tenant boundaries; use fictional data and keep it local.
+
+## Explore the repository
+
+| Resource | Purpose |
+| --- | --- |
+| [demo/domain.py](demo/domain.py) | Fixtures, calculations and use cases |
+| [demo/store.py](demo/store.py) | SQLite transactions, optimistic versions and audit log |
+| [demo/web/feature.js](demo/web/feature.js) | Domain-specific forms and details |
+| [tests](tests) | Domain, persistence, HTTP and browser verification |
+| [Architecture](docs/architecture.md) | Boundaries, tradeoffs and data flow |
+| [API contract](docs/api.md) | Routes, payloads and errors |
+| [Case study](docs/case-study.md) | Problem, acceptance criteria and delivery scope |
+| [Runbook](docs/runbook.md) | Start, inspect, export and recover |
+| [Mobile preview](docs/mobile.png) | 390 px workspace |
+
+Built by [Philippe Godfroy](https://github.com/phlppgdfry).

@@ -17,3 +17,20 @@ target/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local portfolio demo
+var/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.DS_Store
+
+node_modules/
+test-results/
+playwright-report/
+
+# Commit only reproducible baseline evidence
+!reports/
+reports/*
+!reports/baseline/
